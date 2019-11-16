@@ -1,0 +1,16 @@
+{
+  "id": 2,
+  "first_name": "Eddy",
+  "last_name": "Wally",
+  "full_name": "Eddy Wally",
+  "awesome_level": "AWESOMER",
+  "registration_date": "2018-11-05T20:00:00.000Z",
+  "profile_picture": "https://images.itp.com/eddywally.jpg",
+  "address": {
+    "street": "Markkramerstraat",
+    "house_number": "1",
+    "city": "Geweldig",
+    "postal_code": "9000",
+    "country": "Belgium"
+  }
+}

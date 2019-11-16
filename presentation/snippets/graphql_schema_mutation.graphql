@@ -1,0 +1,8 @@
+type Mutation {
+  postCreate(input: PostCreateInput!): Post
+}
+
+input PostCreateInput {
+  title: String!
+  body: String!
+}

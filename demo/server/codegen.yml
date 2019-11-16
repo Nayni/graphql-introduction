@@ -1,0 +1,13 @@
+overwrite: true
+schema: "./src/schema.ts"
+documents: null
+generates:
+  src/__generated__/resolvers.d.ts:
+    config:
+      contextType: ./../context#Context
+      mappers:
+        User: ./../models/entities/User#User
+        Post: ./../models/entities/Post#Post
+    plugins:
+      - "typescript"
+      - "typescript-resolvers"

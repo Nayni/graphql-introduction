@@ -1,0 +1,17 @@
+{
+  "id": 1,
+  "first_name": "Rutger",
+  "last_name": "Hendrickx",
+  "full_name": "Rutger Hendrickx",
+  "awesome_level": "AWESOMEST",
+  "registration_date": "2018-11-05T20:00:00.000Z",
+  "profile_picture": "https://images.itp.com/rhendrickx.jpg",
+  "address": {
+    "street": "Vaartkom",
+    "house_number": "1A",
+    "house_number_extension": "501",
+    "city": "Leuven",
+    "postal_code": "3000",
+    "country": "Belgium"
+  }
+}

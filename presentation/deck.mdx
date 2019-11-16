@@ -1,0 +1,414 @@
+import { default as light } from "mdx-deck/themes";
+import { Appear } from "mdx-deck";
+import { CodeSurfer } from "mdx-deck-code-surfer";
+export { components } from "mdx-deck-code-surfer";
+import nightOwl from "prism-react-renderer/themes/nightOwl";
+import { GraphQLSvgLogo } from "./components/GraphQLSvgLogo";
+import { Bold } from "./components/Bold";
+import { Quote } from "./components/Quote";
+import { BulletList, BulletPoint } from "./components/Bullets";
+import { Strikethrough } from "./components/Strikethrough";
+import { Highlight } from "./components/Highlight";
+import { Link } from "./components/Link";
+
+export const theme = {
+  ...light,
+};
+
+# GraphQL
+
+<GraphQLSvgLogo />
+
+#### What's the hype?
+
+---
+
+# The "official" definition
+
+<Quote
+  quote="GraphQL is a query language for your API, and a server-side runtime for executing queries by using a type system you define for your data. GraphQL isn't tied to any specific database or storage engine and is instead backed by your existing code and data."
+  source="https://graphql.org"
+/>
+
+---
+
+# Let's set the scene
+
+TODO: Make visuals :D
+
+---
+
+## #1: We fetch all posts
+
+`/api/posts/`
+
+---
+
+<CodeSurfer
+  title="/api/posts"
+  lang="json"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/api_posts_all.json.txt")}
+  steps={[{}, { lines: [11, 22] }]}
+/>
+
+---
+
+## #2: We fetch the author for each post...
+
+`/api/user/{id}`
+
+---
+
+<CodeSurfer
+  title="for the first post..."
+  lang="json"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/api_user_1.json.txt")}
+/>
+
+---
+
+<CodeSurfer
+  title="for the second post..."
+  lang="json"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/api_user_2.json.txt")}
+/>
+
+---
+
+<CodeSurfer
+  title="for the third post..."
+  lang="json"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/api_user_1.json.txt")}
+/>
+
+---
+
+`/api/posts`
+
+`/api/author/1`
+
+`/api/author/2`
+
+`/api/author/1`
+
+---
+
+## Problems?
+
+<BulletList>
+  <BulletPoint>
+    We asked for the same author <Bold>twice</Bold>.
+  </BulletPoint>
+  <BulletPoint>
+    We needed additional round trips to the server to get author data. (
+    <Bold>under-fetching</Bold>)
+  </BulletPoint>
+  <BulletPoint>
+    All requests combined gave us more data that we actually needed to display
+    on the screen. (<Bold>over-fetching</Bold>)
+  </BulletPoint>
+</BulletList>
+
+---
+
+## More problems to think about
+
+<BulletList>
+  <BulletPoint>How do we know what endpoints to use?</BulletPoint>
+  <BulletPoint>
+    How does the frontend know what these endpoints return?
+  </BulletPoint>
+  <BulletPoint>
+    How does the frontend know which fields are available, which fields are
+    optional?
+  </BulletPoint>
+  <BulletPoint>
+    How does the frontend know what input parameters are available/required?
+  </BulletPoint>
+  <BulletPoint>
+    How does the backend know which fields the Apps are using? (so we could
+    safely remove deprecated fields)
+  </BulletPoint>
+</BulletList>
+
+---
+
+## Let's call the BFF!
+
+### (Backend For Frontend)
+
+---
+
+<CodeSurfer
+  title="/api/presentation/posts-list"
+  lang="json"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/api_presentation_posts_list.json.txt")}
+  steps={[{}, { range: [7, 11] }]}
+/>
+
+---
+
+## Did we solve anything?
+
+<BulletList>
+  <BulletPoint>
+    <Strikethrough>
+      We asked for the same author <Bold>twice</Bold>.
+    </Strikethrough>
+  </BulletPoint>
+  <BulletPoint>
+    <Strikethrough>
+      We needed additional round trips to the server to get author data. (
+      <Bold>under-fetching</Bold>)
+    </Strikethrough>
+  </BulletPoint>
+  <BulletPoint>
+    <Strikethrough>
+      All requests combined gave us more data that we actually needed to display
+      on the screen. (<Bold>over-fetching</Bold>)
+    </Strikethrough>
+  </BulletPoint>
+  <BulletPoint>How do we know what endpoints to use?</BulletPoint>
+  <BulletPoint>
+    How does the frontend know what these endpoints return?
+  </BulletPoint>
+  <BulletPoint>
+    How does the frontend know which fields are available, which fields are
+    optional?
+  </BulletPoint>
+  <BulletPoint>
+    How does the frontend know what input parameters are available/required?
+  </BulletPoint>
+  <BulletPoint>
+    How does the backend know which fields the Apps are using? (so we could
+    safely remove deprecated fields)
+  </BulletPoint>
+  <BulletPoint>
+    <Bold>!!!</Bold> What if we add a new field to our post type (i.e.
+    image_url)? We have to add it <Bold>everywhere</Bold>
+  </BulletPoint>
+</BulletList>
+
+---
+
+## The root of the problem
+
+<BulletList>
+  <BulletPoint>
+    The <Bold>server</Bold> is in charge of dicating the response of the
+    payloads, not the client.
+  </BulletPoint>
+  <BulletPoint>
+    The endpoints are returning <Bold>fixed</Bold> data structures. We implement
+    an endpoint once with fixed field sets and the server will always return the
+    entire field set, even if the client doesn't need them.
+  </BulletPoint>
+  <BulletPoint>
+    The API documentation is not part of the backend, it's usually kept seperate
+    (if at all) from the codebase.
+  </BulletPoint>
+  <BulletPoint>
+    Resources (posts, authors) are organized in terms of <Bold>endpoints</Bold>{" "}
+    making discoverability a lot harder.
+  </BulletPoint>
+</BulletList>
+
+---
+
+## and specifically for REST...
+
+REST is not a formal specification, it's just a convention and leaves implementation open for developers on both ends of the stack (back and front). This in turns leds to:
+
+<BulletList>
+  <BulletPoint>
+    Meaningless discussions about which status codes to return
+  </BulletPoint>
+  <BulletPoint>
+    Meaningless discussion about wether to return an ID, a nested object or a
+    Hyperlink URL for a relation
+  </BulletPoint>
+  <BulletPoint>No built-in documentation support</BulletPoint>
+  <BulletPoint>Focussed more on the backend than the frontend</BulletPoint>
+</BulletList>
+
+---
+
+# Okay, so then what?
+
+---
+
+<CodeSurfer
+  title="GraphQL"
+  lang="graphql"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/graphql_posts_query.graphql")}
+  steps={[{}, { range: [3, 10] }]}
+/>
+
+---
+
+<CodeSurfer
+  title="and the server responds"
+  lang="graphql"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/graphql_posts_query_response.json.txt")}
+  steps={[{}, { range: [4, 12] }]}
+/>
+
+---
+
+# That's GraphQL!
+
+(kk, thx, bye!)
+
+---
+
+<h2>
+  GraphQL is a <Highlight>query language</Highlight> for APIs which exposes
+  itself over a <Highlight>single endpoint</Highlight>.
+</h2>
+
+---
+
+<h2>
+  The endpoint provides a <Highlight>typed schema</Highlight> which represents a
+  data graph that includes all the entities that are available within the
+  system.
+</h2>
+
+---
+
+<h2>
+  The GraphQL schema is defined by a{" "}
+  <Highlight>Schema Definition Language (SDL)</Highlight> which consists of the
+  following major building blocks:
+</h2>
+<BulletList>
+  <BulletPoint>Types (and fields)</BulletPoint>
+  <BulletPoint>Scalars (Int, Bool, String, ID)</BulletPoint>
+  <BulletPoint>Enumerations</BulletPoint>
+  <BulletPoint>Interfaces</BulletPoint>
+  <BulletPoint>Input Types</BulletPoint>
+</BulletList>
+
+---
+
+<CodeSurfer
+  title="A simple Schema for our posts"
+  lang="json"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/graphql_schema_simple.graphql")}
+  steps={[
+    {},
+    { lines: [1], notes: "We start with a type for User" },
+    { lines: [2], notes: "A user has a unique ID, this field is required." },
+    { lines: [3], notes: "A user has a fullName, this is a required String" },
+    {
+      lines: [4],
+      notes: "A user has a profilePicture, this is an optional String",
+    },
+    { range: [7, 12], notes: "Next we define a type for Post" },
+    {
+      lines: [11],
+      notes: "We define a relation between Post and our User type",
+    },
+    { lines: [14], notes: "We define a RootQuery type" },
+    { lines: [15], notes: "And expose a way to query for all posts" },
+  ]}
+/>
+
+---
+
+<h2>
+  Whenever we send our query to this GraphQL endpoint. The query will be{" "}
+  <Highlight>validated</Highlight> against the schema to ensure we're asking for
+  fields and types that exist.
+</h2>
+
+---
+
+<h2>
+  When the query is valid it will be <Highlight>executed</Highlight>.
+</h2>
+
+---
+
+<h2>
+  The query is executed by <Highlight>async</Highlight> functions that know how
+  to <Highlight>resolve</Highlight> each type and field. These functions are
+  called <Highlight>resolvers</Highlight>.
+</h2>
+
+---
+
+## What about creating or modifying data?
+
+---
+
+<h2>
+  In order to <Highlight>mutate</Highlight> data GraphQL allows for the ability
+  to expose a set of <Highlight>Mutations</Highlight>.
+</h2>
+
+---
+
+<CodeSurfer
+  title="Create post mutation"
+  lang="json"
+  showNumbers={true}
+  code={require("!raw-loader!./snippets/graphql_schema_mutation.graphql")}
+  steps={[
+    {},
+    { lines: [1], notes: "We define a Mutation type" },
+    { lines: [2], notes: "It has a field with an input to create a new post" },
+    {
+      lines: [5],
+      notes: "We define an Input type for the postCreate mutation",
+    },
+    {
+      lines: [6],
+      notes: "It requires a title",
+    },
+    {
+      lines: [7],
+      notes: "and a body",
+    },
+    {},
+  ]}
+/>
+
+---
+
+## Let's take a look at Github's GraphQL API!
+
+<Link href="https://developer.github.com/v4/explorer/" target="_blank">https://developer.github.com/v4</Link>
+
+---
+
+## So, what makes GraphQL different?
+
+<BulletList>
+  <BulletPoint>
+    Formal <Bold>specification</Bold>
+  </BulletPoint>
+  <BulletPoint>
+     <Bold>Client driven</Bold>, the client describes <Bold>exactly</Bold> what it needs.
+  </BulletPoint>
+  <BulletPoint>It exposes a <Bold>strongly typed</Bold> schema</BulletPoint>
+  <BulletPoint>Documentation is <Bold>part of the schema</Bold></BulletPoint>
+  <BulletPoint>Data is exposed in terms of a Graph, with <Bold>first-class</Bold> support for relations</BulletPoint>
+  <BulletPoint>The schema allows for <Bold>introspection</Bold>, which enables advanced tooling</BulletPoint>
+</BulletList>
+
+---
+
+# Demo Time!
+
+---
+
+# Questions?

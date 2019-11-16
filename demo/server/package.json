@@ -1,0 +1,29 @@
+{
+  "name": "itp-graphql-demo-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.8.3",
+    "@graphql-codegen/typescript": "1.8.3",
+    "@graphql-codegen/typescript-resolvers": "^1.8.3",
+    "@types/faker": "^4.1.7",
+    "@types/node": "^12.12.6",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.7.2"
+  },
+  "dependencies": {
+    "apollo-server": "^2.9.7",
+    "dataloader": "^1.4.0",
+    "faker": "^4.1.0",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "sqlite3": "^4.1.0",
+    "typeorm": "^0.2.20"
+  },
+  "scripts": {
+    "seed": "ts-node-dev --transpileOnly ./src/models/seed.ts",
+    "start": "ts-node-dev --respawn --transpileOnly ./src/index.ts",
+    "codegen": "graphql-codegen --config codegen.yml"
+  }
+}

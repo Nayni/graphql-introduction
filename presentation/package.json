@@ -1,0 +1,19 @@
+{
+  "name": "itp-graphql-presentation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "mdx-deck deck.mdx",
+    "build": "mdx-deck build deck.mdx",
+    "help": "mdx-deck"
+  },
+  "devDependencies": {
+    "json-loader": "^0.5.7",
+    "mdx-deck": "^1.10.2",
+    "mdx-deck-code-surfer": "^0.5.5",
+    "prettier": "^1.19.1",
+    "raw-loader": "^1.0.0",
+    "styled-components": "^4.4.1"
+  }
+}

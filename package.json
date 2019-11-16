@@ -1,0 +1,10 @@
+{
+  "name": "itp-graphql-introduction",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.2"
+  }
+}

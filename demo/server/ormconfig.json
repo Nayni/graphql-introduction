@@ -1,0 +1,6 @@
+{
+  "type": "sqlite",
+  "database": "./database.sql",
+  "entities": ["./src/models/entities/*.ts"],
+  "logging": ["query", "error", "schema"]
+}
