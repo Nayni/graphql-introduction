@@ -1,6 +1,13 @@
 import DataLoader from "dataloader";
 import db, { ID, Post, User } from "../models";
 
+/**
+ * The following is a example implementation for DataLoaders.
+ * DataLoaders can help performance by batching requests to the same resources together.
+ *
+ * for more information see: https://github.com/graphql/dataloader
+ */
+
 export const createLoaders = () => {
   return {
     post: new DataLoader<ID, Post>(async ids => {

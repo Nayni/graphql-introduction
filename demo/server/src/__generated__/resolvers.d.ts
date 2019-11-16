@@ -15,11 +15,17 @@ export type Scalars = {
 
 export type Address = {
    __typename?: 'Address',
+  /** The street name. */
   street: Scalars['String'],
+  /** The house number. */
   houseNumber: Scalars['String'],
+  /** The house number extension. */
   houseNumberExtension?: Maybe<Scalars['String']>,
+  /** The name of the city. */
   city: Scalars['String'],
+  /** The postal code. */
   postalCode: Scalars['String'],
+  /** The name of the country. */
   country: Scalars['String'],
 };
 
@@ -31,6 +37,7 @@ export enum AwesomeLevel {
 
 export type Mutation = {
    __typename?: 'Mutation',
+  /** Creates a new post. */
   postCreate?: Maybe<Post>,
 };
 
@@ -42,22 +49,32 @@ export type MutationPostCreateArgs = {
 export type Post = {
    __typename?: 'Post',
   id: Scalars['ID'],
+  /** The title of the post. */
   title: Scalars['String'],
+  /** The body of the post. */
   body: Scalars['String'],
+  /** Whether the post is published or not. */
   isPublished: Scalars['Boolean'],
+  /** The author of the post. */
   author: User,
 };
 
 export type PostCreateInput = {
+  /** The id of the author for the post. */
   authorId: Scalars['ID'],
+  /** The title of the post. */
   title: Scalars['String'],
+  /** The body of the post. */
   body: Scalars['String'],
 };
 
 export type Query = {
    __typename?: 'Query',
+  /** Return all users in the system. */
   users: Array<User>,
+  /** Return all posts in the system. */
   posts: Array<Post>,
+  /** Look up a post by its ID. */
   post?: Maybe<Post>,
 };
 
@@ -69,12 +86,19 @@ export type QueryPostArgs = {
 export type User = {
    __typename?: 'User',
   id: Scalars['ID'],
+  /** The users first name */
   firstName: Scalars['String'],
+  /** The users last name */
   lastName: Scalars['String'],
+  /** The users full name, a combination of first and lastname. */
   fullName: Scalars['String'],
+  /** The level of awesomeness. */
   awesomeLevel: AwesomeLevel,
+  /** The users public profile picture. */
   profilePicture?: Maybe<Scalars['String']>,
+  /** The users address. */
   address: Address,
+  /** Return all posts the user has authored. */
   posts: Array<Post>,
 };
 
