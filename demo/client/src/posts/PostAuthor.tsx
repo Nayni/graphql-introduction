@@ -17,6 +17,8 @@ function PostAuthor({ fullName, profilePicture }: PostAuthorProps) {
   );
 }
 
+// We define our data needs through a fragment on the User type.
+// This way any component using the PostAuthor component can use this fragment to aggregate it required data.
 PostAuthor.fragments = {
   author: gql`
     fragment PostAuthor on User {

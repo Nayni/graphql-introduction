@@ -49,6 +49,7 @@ function CreatePostForm({ onSubmit }: CreateFormProps) {
   );
 }
 
+// Some custom components that hook up Formik with inputs/textarea.
 type FormikTextAreaFieldProps = Pick<FieldConfig, "name"> &
   React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
