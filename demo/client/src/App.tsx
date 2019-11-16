@@ -5,10 +5,13 @@ import CreatePost from "./posts/CreatePost";
 
 function App() {
   return (
-    <S.Main>
-      <CreatePost />
-      <Posts />
-    </S.Main>
+    <div>
+      <S.GlobalStyle />
+      <S.Main>
+        <CreatePost />
+        <Posts />
+      </S.Main>
+    </div>
   );
 }
 
