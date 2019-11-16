@@ -6,6 +6,7 @@
   "scripts": {
     "start": "mdx-deck deck.mdx",
     "build": "mdx-deck build deck.mdx",
+    "pdf": "mdx-deck pdf deck.mdx",
     "help": "mdx-deck"
   },
   "devDependencies": {
