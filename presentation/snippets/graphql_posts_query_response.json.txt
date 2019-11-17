@@ -4,7 +4,6 @@
       "id": 1,
       "title": "The benefits of GraphQL",
       "body": "Lorem ipsum...",
-      "published_date": "2019-11-05T20:00:00.000Z",
       "author": {
         "id": 1,
         "full_name": "Rutger Hendrickx",
@@ -15,7 +14,6 @@
       "id": 2,
       "title": "REST in peace",
       "body": "Lorem ipsum...",
-      "published_date": "2019-11-05T20:00:00.000Z",
       "author": {
         "id": 2,
         "full_name": "Eddy Wally",
@@ -26,7 +24,6 @@
       "id": 3,
       "title": "Sharing is caring",
       "body": "Lorem ipsum...",
-      "published_date": "2019-11-05T20:00:00.000Z",
       "author": {
         "id": 1,
         "full_name": "Rutger Hendrickx",

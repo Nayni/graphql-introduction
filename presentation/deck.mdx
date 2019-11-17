@@ -50,6 +50,10 @@ export const theme = {
 
 <img src="images/demo_3.png" />
 
+```notes
+How do we fetch data for this component from a REST backend?
+```
+
 ---
 
 ## #1: We fetch all posts
@@ -65,6 +69,10 @@ export const theme = {
   code={require("!raw-loader!./snippets/api_posts_all.json.txt")}
   steps={[{}, { lines: [11, 22] }]}
 />
+
+```notes
+Explain how this is too much data in one way and too little in another (author).
+```
 
 ---
 
@@ -109,6 +117,10 @@ export const theme = {
 
 `/api/author/1`
 
+```notes
+This can be solved, but it's up to the CLIENT.
+```
+
 ---
 
 ## Problems?
@@ -118,34 +130,30 @@ export const theme = {
     We asked for the same author <Bold>twice</Bold>.
   </BulletPoint>
   <BulletPoint>
-    We needed additional round trips to the server to get author data. (
-    <Bold>under-fetching</Bold>)
+      The first request resulted in <Bold>under-fetching</Bold> (missing author)
   </BulletPoint>
   <BulletPoint>
-    All requests combined gave us more data that we actually needed to display
-    on the screen. (<Bold>over-fetching</Bold>)
+      All requests combined resulted in <Bold>over-fetching</Bold> (too many fields)
   </BulletPoint>
 </BulletList>
 
 ---
 
-## More problems to think about
+## More to think about...
 
 <BulletList>
-  <BulletPoint>How do we know what endpoints to use?</BulletPoint>
+  <BulletPoint>Which endpoints can we use?</BulletPoint>
   <BulletPoint>
-    How does the frontend know what these endpoints return?
+    What do these endpoints return?
   </BulletPoint>
   <BulletPoint>
-    How does the frontend know which fields are available, which fields are
-    optional?
+    What fields are required and which ones are optional?
   </BulletPoint>
   <BulletPoint>
-    How does the frontend know what input parameters are available/required?
+    What input parameters are available?
   </BulletPoint>
   <BulletPoint>
-    How does the backend know which fields the Apps are using? (so we could
-    safely remove deprecated fields)
+    How do we know what fields the Apps are actively using?
   </BulletPoint>
 </BulletList>
 
@@ -154,6 +162,12 @@ export const theme = {
 ## Let's call the BFF!
 
 ### (Backend For Frontend)
+
+```notes
+A lot of organizations recognized these problems, and started building Backends fro Frontends.
+
+This means they would build an specific endpoint implementation for each page/view in their App/Site.
+```
 
 ---
 
@@ -177,40 +191,36 @@ export const theme = {
   </BulletPoint>
   <BulletPoint>
     <Strikethrough>
-      We needed additional round trips to the server to get author data. (
-      <Bold>under-fetching</Bold>)
+      <Bold>under-fetching</Bold>
     </Strikethrough>
   </BulletPoint>
   <BulletPoint>
     <Strikethrough>
-      All requests combined gave us more data that we actually needed to display
-      on the screen. (<Bold>over-fetching</Bold>)
+      <Bold>over-fetching</Bold>
     </Strikethrough>
   </BulletPoint>
-  <BulletPoint>How do we know what endpoints to use?</BulletPoint>
+  <BulletPoint>Which endpoints can we use?</BulletPoint>
   <BulletPoint>
-    How does the frontend know what these endpoints return?
+    What do these endpoints return?
   </BulletPoint>
   <BulletPoint>
-    How does the frontend know which fields are available, which fields are
-    optional?
+    What fields are required and which ones are optional?
   </BulletPoint>
   <BulletPoint>
-    How does the frontend know what input parameters are available/required?
+    What input parameters are available?
   </BulletPoint>
   <BulletPoint>
-    How does the backend know which fields the Apps are using? (so we could
-    safely remove deprecated fields)
-  </BulletPoint>
-  <BulletPoint>
-    <Bold>!!!</Bold> What if we add a new field to our post type (i.e.
-    image_url)? We have to add it <Bold>everywhere</Bold>
+    How do we know what fields the Apps are actively using?
   </BulletPoint>
 </BulletList>
 
+```notes
+Mention what happens when we add a new field to an entity.
+```
+
 ---
 
-## The root of the problem
+## What's the root of the problem with these approaches?
 
 <BulletList>
   <BulletPoint>
@@ -218,17 +228,13 @@ export const theme = {
     payloads, not the client.
   </BulletPoint>
   <BulletPoint>
-    The endpoints are returning <Bold>fixed</Bold> data structures. We implement
-    an endpoint once with fixed field sets and the server will always return the
-    entire field set, even if the client doesn't need them.
+    Resources (/posts, /authors) are organized in terms of <Bold>endpoints</Bold>
   </BulletPoint>
   <BulletPoint>
-    The API documentation is not part of the backend, it's usually kept seperate
-    (if at all) from the codebase.
+    The endpoints are returning <Bold>fixed</Bold> responses.
   </BulletPoint>
   <BulletPoint>
-    Resources (posts, authors) are organized in terms of <Bold>endpoints</Bold>{" "}
-    making discoverability a lot harder.
+    Documentation is <Bold>not</Bold> a first-class citizen.
   </BulletPoint>
 </BulletList>
 
@@ -236,7 +242,7 @@ export const theme = {
 
 ## and specifically for REST...
 
-REST is not a formal specification, it's just a convention and leaves implementation open for developers on both ends of the stack (back and front). This in turns leds to:
+REST became only a convention, this led to:
 
 <BulletList>
   <BulletPoint>
@@ -246,13 +252,26 @@ REST is not a formal specification, it's just a convention and leaves implementa
     Meaningless discussion about wether to return an ID, a nested object or a
     Hyperlink URL for a relation
   </BulletPoint>
-  <BulletPoint>No built-in documentation support</BulletPoint>
+  <BulletPoint>Documentation was an afterthought</BulletPoint>
   <BulletPoint>Focussed more on the backend than the frontend</BulletPoint>
 </BulletList>
+
+```notes
+REST is not a formal specification, it's just a convention and leaves implementation open for developers on both ends of the stack (back and front). This in turns leds to:
+```
 
 ---
 
 # Okay, so then what?
+
+---
+
+<CodeSurfer
+  title="Let's take our BFF response"
+  lang="json"
+  showNumbers={false}
+  code={require("!raw-loader!./snippets/api_presentation_posts_list.json.txt")}
+/>
 
 ---
 
@@ -271,7 +290,7 @@ REST is not a formal specification, it's just a convention and leaves implementa
   lang="graphql"
   showNumbers={false}
   code={require("!raw-loader!./snippets/graphql_posts_query_response.json.txt")}
-  steps={[{}, { range: [4, 12] }]}
+  steps={[{}, { range: [4, 11] }]}
 />
 
 ---
@@ -306,8 +325,8 @@ REST is not a formal specification, it's just a convention and leaves implementa
   <BulletPoint>Types (and fields)</BulletPoint>
   <BulletPoint>Scalars (Int, Bool, String, ID)</BulletPoint>
   <BulletPoint>Enumerations</BulletPoint>
-  <BulletPoint>Interfaces</BulletPoint>
   <BulletPoint>Input Types</BulletPoint>
+  <BulletPoint>Interfaces</BulletPoint>
 </BulletList>
 
 ---
@@ -357,6 +376,10 @@ REST is not a formal specification, it's just a convention and leaves implementa
   to <Highlight>resolve</Highlight> each type and field. These functions are
   called <Highlight>resolvers</Highlight>.
 </h2>
+
+```notes
+To be demo'd
+```
 
 ---
 

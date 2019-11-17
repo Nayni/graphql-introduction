@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { DeepPartial } from "utility-types";
 import { Resolvers } from "./__generated__/resolvers";
 import db, { Post } from "./models";
 
@@ -126,7 +127,7 @@ export const typeDefs = gql`
   }
 `;
 
-export const resolvers: Resolvers = {
+export const resolvers: DeepPartial<Resolvers> = {
   Query: {
     users: () => {
       return db.users.getAll();

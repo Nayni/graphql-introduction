@@ -10,7 +10,8 @@
     "@types/faker": "^4.1.7",
     "@types/node": "^12.12.6",
     "ts-node-dev": "^1.0.0-pre.44",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "utility-types": "^3.10.0"
   },
   "dependencies": {
     "apollo-server": "^2.9.7",
