@@ -166,31 +166,3 @@ export const resolvers: DeepPartial<Resolvers> = {
     },
   },
 };
-
-// With dataloaders
-// export const resolvers: Resolvers = {
-//   Query: {
-//     users: () => {
-//       return db.users.getAll();
-//     },
-//     posts: () => {
-//       return db.posts.getAll();
-//     },
-//     post: (_, args, context) => {
-//       return context.loaders.post.load(args.id);
-//     },
-//   },
-//   User: {
-//     fullName: user => {
-//       return `${user.firstName} ${user.lastName}`;
-//     },
-//     posts: (user, _, context) => {
-//       return context.loaders.postsByAuthor.load(user.id);
-//     },
-//   },
-//   Post: {
-//     author: (post, _, context) => {
-//       return context.loaders.user.load(post.authorID);
-//     },
-//   },
-// };
