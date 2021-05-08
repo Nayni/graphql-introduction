@@ -20,7 +20,7 @@
     "graphql": "^14.5.8",
     "graphql-tag": "^2.10.1",
     "sqlite3": "^4.1.0",
-    "typeorm": "^0.2.20"
+    "typeorm": "^0.2.25"
   },
   "scripts": {
     "seed": "ts-node-dev --transpileOnly ./src/models/seed.ts",
